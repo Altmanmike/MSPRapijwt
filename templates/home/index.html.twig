@@ -1,0 +1,97 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Home PayeTonKawa{% endblock %}
+
+{% block stylesheets %}
+<style>
+    /* Custom CSS */
+    html, body {
+        color: #FFFFFF;
+        margin: auto 0;
+        min-height: 900px;
+        background: hsla(54, 100%, 50%, 1);
+        background: linear-gradient(90deg, hsla(54, 100%, 50%, 1) 0%, hsla(285, 100%, 32%, 1) 34%, hsla(261, 55%, 18%, 1) 72%, hsla(259, 58%, 9%, 1) 100%);
+        background: -moz-linear-gradient(90deg, hsla(54, 100%, 50%, 1) 0%, hsla(285, 100%, 32%, 1) 34%, hsla(261, 55%, 18%, 1) 72%, hsla(259, 58%, 9%, 1) 100%);
+        background: -webkit-linear-gradient(90deg, hsla(54, 100%, 50%, 1) 0%, hsla(285, 100%, 32%, 1) 34%, hsla(261, 55%, 18%, 1) 72%, hsla(259, 58%, 9%, 1) 100%);
+        filter: progid: DXImageTransform.Microsoft.gradient( startColorstr="#FFE500", endColorstr="#7B00A4", GradientType=1 );
+    }
+    button {
+        border-color: #020344;
+        background: hsla(239, 94%, 14%, 1);
+        background: linear-gradient(227deg, hsl(216deg 98% 53%) 0%, hsl(0deg 0% 51%) 100%);
+        background: -moz-linear-gradient(227deg, hsla(216deg 98% 53%) 0%, hsla(0deg 0% 51%) 100%);
+        background: -webkit-linear-gradient(227deg, hsla(216deg 98% 53%) 0%, hsla(0deg 0% 51%) 100%);
+    }
+    button:hover {
+        border-color: #020344;
+        background: hsla(239, 94%, 14%, 1);
+        background: linear-gradient(227deg, hsl(216deg 59% 54%) 0%, hsl(0deg 0% 51%) 100%);
+        background: -moz-linear-gradient(227deg, hsla(216deg 59% 54%) 0%, hsla(0deg 0% 51%) 100%);
+        background: -webkit-linear-gradient(227deg, hsla(216deg 59% 54%) 0%, hsla(0deg 0% 51%) 100%);
+        box-shadow: 0px 4px 0px yellow;
+    }
+    .shadow:hover {
+        text-shadow: 0px 2px 0px lawngreen;
+        transition-delay: 100ms;
+    }
+    p, label {
+        color: #FFFFFF;
+        text-shadow: 1px 2px 1px black;
+    }
+    small {
+        text-shadow: 1px 1px 1px black;
+    }
+    h2,h3,h4 {
+        color: #FFFFFF;
+        text-shadow: 2px 4px 2px black;
+    }
+    h1, .yellow {
+        color: yellow;
+        text-shadow: 2px 4px 2px black;
+    }
+    .yellowBackg {
+        background-color: yellow;
+    }
+    .violetBackg {
+        background-color: #130a26;
+    }
+    .logo {
+        text-align: center;
+    }
+    .social-icons {
+        margin-top: 2em;
+    }
+    .social-icons a {
+        padding: 0 0.5em;
+    }
+    .footer {
+        /*background-color: #130a26;
+        padding-top: 2em;
+        padding-bottom: 0.5em;*/
+    }
+</style>
+{% endblock %}
+
+{% block body %}
+
+    <div class="container w-50 mx-auto text-center">
+        <div class="container mx-auto my-3">
+            <h1 class="mx-auto">MSPR-MCA</h1>
+            <img class='logo my-3' src='https://mspr-mca.dev-integration-altman-69.fr/public/assets/img/payeTonKawa_logo.png'  alt='ptk_logo' style='width:300px;'/>
+            <h3 class="py-2 text-center"><a class="text-decoration-none shadow" href="{{ path('app_dataHome') }}">Interface DEV</a></h3>
+        </div>
+        <div class="container mx-auto my-3">
+            <div class='social-icons'>
+                <a href='https://facebook.com/ptk'><img src='https://mspr-mca.dev-integration-altman-69.fr/public/assets/img/facebook.png'  alt='fb_logo' style='width:25px;'/></a>
+                <a href='https://twitter.com/ptk'><img src='https://mspr-mca.dev-integration-altman-69.fr/public/assets/img/twitter.png'  alt='tw_logo' style='width:25px;'/></a>
+                <a href='https://linkedin.com/ptk'><img src='https://mspr-mca.dev-integration-altman-69.fr/public/assets/img/linkedin.png'  alt='lk_logo' style='width:25px;'/></a>
+            </div>
+            <div class='footer'>
+                <img class='logo my-3' src='https://mspr-mca.dev-integration-altman-69.fr/public/assets/img/epsi.png'  alt='ptk_logo' style='width:200px;'/>
+                <p><small class=''>www.payeTonKawa.fr</small></p>
+                <p><small class='' style='margin-bottom:0;'>Copyright @2022-2023  - PayeTonKawa - All Rights Reserved.</small></p>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

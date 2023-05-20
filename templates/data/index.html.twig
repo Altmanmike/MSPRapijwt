@@ -1,0 +1,158 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}DEV SERVICE{% endblock %}
+
+{% block body %}
+
+    <div class="container w-50 mx-auto my-5">
+        <h1 class="bg-primary mt-5 mb-0 py-2 text-center">Service de gestion des données</h1>
+        <h3 class="bg-success py-2 text-center">(Pour nous seulement)</h3>
+        <a href="{{ path('app_home')}}" class="btn btn-primary mt-3">Retour</a>
+        <div class="container w-50 mx-auto text-center my-0">
+            <!-- Button trigger modal -->
+            <button type="button" class="btn btn-warning mt-3" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                AIDE INTERFACE DEV
+            </button>
+            <!-- Modal -->
+            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5 text-center" id="exampleModalLabel">AIDE INTERFACE DEV</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <h2 class="my-2" style="text-align:justify;">Pour tester tout le système:</h2>
+                            <ul class="list-unstyled" style="text-align:justify;">
+                                <li>Par défaut, la bdd est remplie, NE PAS Fetch les données avec insertion s'il y a des données c'est que c'est en bdd!</li>
+                                <li>1/ Supprimer toutes les données des tables avec les boutons "voir"</li>
+                                <li>2/ Récupérer et insérer les données en bdd avec 4 minutes d'attente!</li>
+                            </ul>
+                            <h2 class="my-2" style="text-align:justify;">Voir l'état du système:</h2>
+                            <ul class="list-unstyled" style="text-align:justify;">
+                                <li>3/ Vérifier toutes les données des tables avec les boutons "voir"</li>
+                                <li>4/ Gestion des clés et des users</li>
+                            </ul>
+                            <h2 class="my-2" style="text-align:justify;">Pour les mails:</h2>
+                            <ul class="list-unstyled" style="text-align:justify;">
+                                <li>5/ Supprimer les données de la table Users pour ré-inscrivez-vous!</li>
+                            </ul>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Scrollable modal end -->
+        </div>
+        <table class="table table-striped table-hover text-left my-5">
+            <thead>
+            <tr class="bg-primary">
+                <th scope="col" class="text-center">DONE</th>
+                <th scope="col" class="text-center">ACTION</th>
+                <th scope="col" class="text-center">URL</th>
+            </tr>
+            </thead>
+                <tbody>
+                <tr>
+                    <th colspan="3" class="text-center" style="height:50px;"><strong></strong></th>
+                </tr>
+                <tr>
+                    <th colspan="3" class="bg-success text-center"><strong>DATA API MOOC</strong></th>
+                </tr>
+                <tr>
+                    <th scope="row" class="text-center"><i class="fa fa-check" aria-hidden="true" style="color:green"></i></th>
+                    <td class="text-center"><strong>Récupération et insérer dans la base de données des fetchs JSON</strong></td>
+                    <!--<td class="text-center"><a href="{# path("app_dataSleepJson")  #}"><i class="fa fa-plus" aria-hidden="true"></i></a></td>-->
+                    <!-- Button trigger modal -->
+                    <td class="text-center"><a href="" type="button" data-bs-toggle="modal" data-bs-target="#exampleModal1">
+                            <i class="fa fa-plus" aria-hidden="true"></i>
+                    </a></td>
+                    <!-- Modal -->
+                    <div class="modal fade" id="exampleModal1" tabindex="-1" aria-labelledby="exampleModal1Label" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="exampleModalLabel">VEUILLEZ PATIENTER 2-3 MINUTES S.V.P</h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <a class="text-decoration-none" href="{{ path("app_dataSleepJson")  }}">
+                                        <h2 class="text-center">Récupérer toutes les données de l'API MOOC: <i class="fa fa-plus" aria-hidden="true"></i></h2>
+                                    </a>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </tr>
+                <tr>
+                    <th class="text-center" scope="row"><i class="fa fa-check" aria-hidden="true" style="color:green"></i></th>
+                    <td class="text-center"><strong>API</strong></td>
+                    <td class="text-center"><a href="{{ path("app_goAPI")  }}" ><i class="fa fa-eye" aria-hidden="true"></i></a></td>
+                </tr>
+                <tr>
+                    <th colspan="3" class="bg-secondary text-center"><strong>VERIFIER</strong></th>
+                </tr>
+                <tr>
+                    <th class="text-center" scope="row"><i class="fa fa-check" aria-hidden="true" style="color:green"></i></th>
+                    <td class="text-center"><strong>Products</strong></td>
+                    <td class="text-center"><a href="{{ path("app_dataProducts")  }}" ><i class="fa fa-eye" aria-hidden="true"></i></a></td>
+                </tr>
+                <tr>
+                    <th class="text-center" scope="row"><i class="fa fa-check" aria-hidden="true" style="color:green"></i></th>
+                    <td class="text-center"><strong>Orders</strong></td>
+                    <td class="text-center"><a href="{{ path("app_dataOrders")  }}" ><i class="fa fa-eye" aria-hidden="true"></i></a></td>
+                </tr>
+                <tr>
+                    <th class="text-center" scope="row"><i class="fa fa-check" aria-hidden="true" style="color:green"></i></th>
+                    <td class="text-center"><strong>Users</strong></td>
+                    <td class="text-center"><a href="{{ path("app_dataUsers")  }}" ><i class="fa fa-eye" aria-hidden="true"></i></a></td>
+                </tr>
+                <tr>
+                    <th colspan="3" class="text-center" style="height:50px;"><strong></strong></th>
+                </tr>
+                <tr>
+                    <th colspan="3" class="bg-success text-center"><strong>LA BASE DE DONNEES</strong></th>
+                </tr>
+                <tr>
+                    <th scope="row" class="text-center"><i class="fa fa-check" aria-hidden="true" style="color:green"></i></th>
+                    <td class="text-center"><strong>Générer des Users </strong></td>
+                    <td class="text-center"><a href="{{ path("app_dataLoadUsers")  }}" ><i class="fa fa-plus" aria-hidden="true"></i></a></td>
+                </tr>
+                <tr>
+                    <th colspan="3" class="text-center my-2" style="height:50px;"><strong></strong></th>
+                </tr>
+                <tr>
+                    <th scope="row" class="text-center"><i class="fa fa-check" aria-hidden="true" style="color:green"></i></th>
+                    <td class="text-center"><strong>Effacer des données des tables Orders, Products</strong></td>
+                    <td class="text-center"><a href="{{ path("app_dataReset")  }}" ><i class="fa fa-trash" aria-hidden="true"></i></a></td>
+                </tr>
+                <tr>
+                    <th scope="row" class="text-center"><i class="fa fa-check" aria-hidden="true" style="color:green"></i></th>
+                    <td class="text-center"><strong>Effacer des données de la table Users (clients et revendeurs)</strong></td>
+                    <td class="text-center"><a href="{{ path("app_dataResetUsers")  }}" ><i class="fa fa-trash" aria-hidden="true"></i></a></td>
+                </tr>
+                                <tr>
+                    <th colspan="3" class="text-center" style="height:50px;"><strong></strong></th>
+                </tr>
+                <tr>
+                    <th colspan="3" class="bg-success text-center"><strong>AUTOMATISER MOOC-V1 TO APIs R-W</strong></th>
+                </tr>
+                <tr>
+                    <th scope="row" class="text-center"><i class="fa fa-check" aria-hidden="true" style="color:green"></i></th>
+                    <td class="text-center"><strong>Activer l'automatisme </strong></td>
+                    <td class="text-center">
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" checked style="float:none;">                            
+                        </div>                        
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+{% endblock %}
