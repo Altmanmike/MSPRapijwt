@@ -143,7 +143,12 @@ class DataController extends AbstractController
 
                         foreach ($dataDecodedProducts as $dataDecodedProduct):
                             {
-                                array_push($produits, $dataDecodedProduct['id']);
+                                if(!empty($dataDecodedProduct['stock']))
+                                {
+                                    array_push($produits, '{idProduit: '.$dataDecodedProduct['id'].', Qte: '.$dataDecodedProduct['stock'].'}');
+                                } else {
+                                    array_push($produits, '{idProduit: '.$dataDecodedProduct['id'].', Qte: indéfini }');
+                                }                                
                                 
                                 $sthP->execute([ $dataDecodedProduct['id'], $dataDecodedProduct['name'], $dataDecodedProduct['details']['description'], $dataDecodedProduct['details']['price'], $faker->randomNumber(5, false),  $faker->url() ]);
                             }

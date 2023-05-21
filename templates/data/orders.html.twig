@@ -17,7 +17,6 @@
                     <th scope="col" class="text-center">Prénom client</th>
                     <th scope="col" class="text-center">Adresse</th>
                     <th scope="col" class="text-center">Mobile</th>
-
                 </tr>
             </thead>
             <tbody>
@@ -25,7 +24,7 @@
                 <tr>
                     <th scope="row" class="text-center">{{ order.getId() }}</th>
                     <td class="text-center">{{ order.getDate()|date("m/d/Y") }}</td>
-                    <td class="text-center">{{ order.getProduits()|json_encode() }}</td>
+                    <td class="text-center">{{ order.getProduits()|json_encode }}</td>
                     <td class="text-center">{{ order.getNomClient() }}</td>
                     <td class="text-center">{{ order.getPrenomClient() }}</td>
                     <td class="text-center">{{ order.getAdresseClient() }}</td>

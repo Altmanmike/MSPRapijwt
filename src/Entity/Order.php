@@ -47,7 +47,7 @@ class Order
         return $this->date;
     }
 
-    public function setDate(?\DateTimeImmutable $date): self
+    public function setDate(\DateTimeImmutable $date): self
     {
         $this->date = $date;
 
@@ -59,7 +59,7 @@ class Order
         return $this->produits;
     }
 
-    public function setProduits(?array $produits): self
+    public function setProduits(array $produits): self
     {
         $this->produits = $produits;
 

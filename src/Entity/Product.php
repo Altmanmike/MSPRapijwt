@@ -44,7 +44,7 @@ class Product
         return $this->nom;
     }
 
-    public function setNom(?string $nom): self
+    public function setNom(string $nom): self
     {
         $this->nom = $nom;
 
@@ -56,7 +56,7 @@ class Product
         return $this->description;
     }
 
-    public function setDescription(?string $description): self
+    public function setDescription(string $description): self
     {
         $this->description = $description;
 
@@ -68,7 +68,7 @@ class Product
         return $this->prix;
     }
 
-    public function setPrix(?int $prix): self
+    public function setPrix(int $prix): self
     {
         $this->prix = $prix;
 
@@ -92,7 +92,7 @@ class Product
         return $this->image;
     }
 
-    public function setImage(?string $image): self
+    public function setImage(string $image): self
     {
         $this->image = $image;
 
