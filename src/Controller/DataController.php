@@ -7,7 +7,7 @@ use PDOException;
 use Faker\Factory;
 use App\Entity\User;
 use App\Service\ResetDataService;
-use App\Service\FetchWithSleepService;
+use App\Service\FetchWithHttpResponseService;
 //use App\Repository\CustomerRepository;
 use App\Repository\ProductRepository;
 use App\Repository\OrderRepository;
@@ -95,14 +95,14 @@ class DataController extends AbstractController
     }  
     
     /************************************************** */
-    #[Route('/data/sleep-json', name: 'app_dataSleepJson')]
-    public function dataSleepJson(FetchWithSleepService $fetchWithSleepService): Response
+    #[Route('/data/data-getJson', name: 'app_dataGetJson')]
+    public function dataGetJson(FetchWithHttpResponseService $fetchWithHttpResponseService): Response
     {
         ini_set('max_execution_time', '500'); //360 seconds = 6 minutes
         set_time_limit(500);
 
         $url = 'https://615f5fb4f7254d0017068109.mockapi.io/api/v1/customers';
-        $customers = $fetchWithSleepService->getApiJsonData($url, 2); // Attendre 1 seconde avant d'envoyer la requête        
+        $customers = $fetchWithHttpResponseService->getJsonFromAPI($url, $maxRetries = 200);
 
         $faker = Factory::create('fr_FR');
 
@@ -113,7 +113,7 @@ class DataController extends AbstractController
         $dbPass = $_SERVER['DB_PASS'];
 
         // Connexion à la bdd:
-        try {            
+        try {
             $pdo = new PDO("mysql:host=$dbhost; dbname=$dbname", $dbUser, $dbPass);
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         } catch(PDOException $e) {
@@ -126,40 +126,36 @@ class DataController extends AbstractController
         $sqlProducts = "INSERT INTO `product` (`id`, `nom`, `description`, `prix`, `qte_stock`, `image`) VALUES (?, ?, ?, ?, ?, ?)";
         $sthP = $pdo->prepare($sqlProducts);
 
-        // Boucle sur chaque ligne du json, pour chaque Customer..
-        foreach ($customers as $customer):
-            {                
-                $dataDecodedOrders = $customer['orders'];                
+        foreach ($customers as $customer) {
+            $dataDecodedOrders = $customer['orders'];
+    
+            foreach ($dataDecodedOrders as $dataDecodeOrder) {
+                $idCustomer = $dataDecodeOrder['customerId'];
+                $idOrder = $dataDecodeOrder['id'];
+                $produits = (array) null;
+                $retryCount = 0;
+    
+                // Récupération des produits des commandes du client
+                $url = "https://615f5fb4f7254d0017068109.mockapi.io/api/v1/customers/$idCustomer/orders/$idOrder/products";
+                    
+                $dataDecodedProducts = $fetchWithHttpResponseService->getJsonFromAPI($url, $maxRetries = 200);                    
                 
-                foreach ($dataDecodedOrders as $dataDecodeOrder):
-                    {                       
-                        $idCustomer = $dataDecodeOrder['customerId'];
-                        $idOrder = $dataDecodeOrder['id'];
-                        $produits = (array) null;
-
-                        // Récupération des produits des commandes du client:
-                        $url = "https://615f5fb4f7254d0017068109.mockapi.io/api/v1/customers/$idCustomer/orders/$idOrder/products";
-                        $dataDecodedProducts = $fetchWithSleepService->getApiJsonData($url, 2);                       
-
-                        foreach ($dataDecodedProducts as $dataDecodedProduct):
-                            {
-                                if(!empty($dataDecodedProduct['stock']))
-                                {
-                                    array_push($produits, '{idProduit: '.$dataDecodedProduct['id'].', Qte: '.$dataDecodedProduct['stock'].'}');
-                                } else {
-                                    array_push($produits, '{idProduit: '.$dataDecodedProduct['id'].', Qte: indéfini }');
-                                }                                
-                                
-                                $sthP->execute([ $dataDecodedProduct['id'], $dataDecodedProduct['name'], $dataDecodedProduct['details']['description'], $dataDecodedProduct['details']['price'], $faker->randomNumber(5, false),  $faker->url() ]);
-                            }
-                        endforeach;
-
-                        $sthO->execute([ $dataDecodeOrder['id'], $dataDecodeOrder['createdAt'], Json_encode($produits), $customer['lastName'], $customer['firstName'], $customer['address']['city'].', '.$customer['address']['postalCode'], $faker->mobileNumber() ]);
+                foreach ($dataDecodedProducts as $dataDecodedProduct):
+                    {
+                        if(!empty($dataDecodedProduct['stock'])) {
+                            array_push($produits, '{idProduit: '.$dataDecodedProduct['id'].', Qte: '.$dataDecodedProduct['stock'].'}');
+                        } else {
+                            array_push($produits, '{idProduit: '.$dataDecodedProduct['id'].', Qte: indéfini }');
+                        }
+        
+                        $sthP->execute([ $dataDecodedProduct['id'], $dataDecodedProduct['name'], $dataDecodedProduct['details']['description'], $dataDecodedProduct['details']['price'], $faker->randomNumber(5, false),  $faker->url() ]);
                     }
-                endforeach;
+                endforeach;                      
+    
+                $sthO->execute([ $dataDecodeOrder['id'], $dataDecodeOrder['createdAt'], Json_encode($produits), $customer['lastName'], $customer['firstName'], $customer['address']['city'].', '.$customer['address']['postalCode'], $faker->mobileNumber() ]);
             }
-        endforeach;
-
+        }   
+        
         return $this->render('data/index.html.twig', [
             'controller_name' => 'DataController',
         ]);
