@@ -102,7 +102,8 @@ class DataController extends AbstractController
         set_time_limit(500);
 
         $url = 'https://615f5fb4f7254d0017068109.mockapi.io/api/v1/customers';
-        $customers = $fetchWithHttpResponseService->getJsonFromAPI($url, $maxRetries = 200);
+        
+        $customers = $fetchWithHttpResponseService->getJsonFromAPI($url);
 
         $faker = Factory::create('fr_FR');
 
@@ -111,7 +112,7 @@ class DataController extends AbstractController
         $dbname = $_SERVER['DB_NAME'];
         $dbUser = $_SERVER['DB_USER'];
         $dbPass = $_SERVER['DB_PASS'];
-
+        
         // Connexion à la bdd:
         try {
             $pdo = new PDO("mysql:host=$dbhost; dbname=$dbname", $dbUser, $dbPass);
@@ -132,25 +133,26 @@ class DataController extends AbstractController
             foreach ($dataDecodedOrders as $dataDecodeOrder) {
                 $idCustomer = $dataDecodeOrder['customerId'];
                 $idOrder = $dataDecodeOrder['id'];
-                $produits = (array) null;
-                $retryCount = 0;
-    
+                $produits = (array) null;                
+
                 // Récupération des produits des commandes du client
                 $url = "https://615f5fb4f7254d0017068109.mockapi.io/api/v1/customers/$idCustomer/orders/$idOrder/products";
-                    
-                $dataDecodedProducts = $fetchWithHttpResponseService->getJsonFromAPI($url, $maxRetries = 200);                    
                 
-                foreach ($dataDecodedProducts as $dataDecodedProduct):
-                    {
+                $dataDecodedProducts = $fetchWithHttpResponseService->getJsonFromAPI($url);                    
+                
+                if($dataDecodedProducts !== null )
+                {
+                    foreach ($dataDecodedProducts as $dataDecodedProduct)
+                    {                     
                         if(!empty($dataDecodedProduct['stock'])) {
                             array_push($produits, '{idProduit: '.$dataDecodedProduct['id'].', Qte: '.$dataDecodedProduct['stock'].'}');
-                        } else {
+                        } else {                            
                             array_push($produits, '{idProduit: '.$dataDecodedProduct['id'].', Qte: indéfini }');
                         }
         
                         $sthP->execute([ $dataDecodedProduct['id'], $dataDecodedProduct['name'], $dataDecodedProduct['details']['description'], $dataDecodedProduct['details']['price'], $faker->randomNumber(5, false),  $faker->url() ]);
-                    }
-                endforeach;                      
+                    } 
+                }                                                     
     
                 $sthO->execute([ $dataDecodeOrder['id'], $dataDecodeOrder['createdAt'], Json_encode($produits), $customer['lastName'], $customer['firstName'], $customer['address']['city'].', '.$customer['address']['postalCode'], $faker->mobileNumber() ]);
             }

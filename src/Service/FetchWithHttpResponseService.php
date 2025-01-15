@@ -1,29 +1,28 @@
 <?php
 
-    namespace App\Service;
+namespace App\Service;
 
-    use Symfony\Component\HttpClient\HttpClient;
+use Exception;
+use Symfony\Contracts\HttpClient\HttpClientInterface;
 
-    class FetchWithHttpResponseService
+class FetchWithHttpResponseService
+{
+    public function __construct(private HttpClientInterface $client){}
+
+    public function getJsonFromAPI($url)
     {
-        public function getJsonFromAPI($url, $maxRetries = 200)
-        {
-            $httpClient = HttpClient::create();
-            $retryCount = 0;
+        $response = $this->client->request(
+            'GET',
+            $url
+        );
 
-            while ($retryCount < $maxRetries) {
-                $response = $httpClient->request('GET', $url);               
-                $statusCode = $response->getStatusCode();
+        $statusCode = $response->getStatusCode();
 
-                if ($statusCode === 200) {
-                    $content = $response->getContent();
-                    $data = json_decode($content, true);
-                    return $data;
-                }
+        if ($statusCode === 200) {
+            $content = $response->getContent();
+            $data = json_decode($content, true);   
 
-                $retryCount++;
-            }
-
-            throw new \Exception('La requête a échoué après plusieurs tentatives.');
-        }
+            return $data;
+        }      
     }
+}
